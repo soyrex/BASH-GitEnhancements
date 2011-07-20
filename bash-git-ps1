@@ -1,0 +1,38 @@
+# __gitinfo function:
+
+__gitinfo() {
+  local br="$(git branch 2> /dev/null | grep  '^*' | awk '{print $2}' | tr -d '\n')"
+  if [ -n "$br" ]
+  then
+    printf "\e[0;30m"
+    printf "(\e[0;31;49m"
+    echo -n "${br}"
+
+   # Get the uncommited files :
+   local uncom=`git status 2> /dev/null | grep -c "modified" | sed 's/^0//g' | sed 's/^\([0-9]\)/\1/' | sed 's/\([0-9]\)$/\1/' |tr -d '\n'`
+   # Get the branch ahead status:
+   local where=`git status 2> /dev/null | grep "Your branch is ahead" |  sed 's/[^0-9]//g'`
+
+   if [[ "$uncom" != "" || "$where" != "" ]]
+   then
+     echo -n ":"
+   fi
+
+   if [ "$uncom" != "" ]
+   then
+     printf "\e[1;33m"
+     printf " *%s" "$uncom"
+   fi
+
+   # where are we compared to the branch?
+   if [ "$where" != "" ]
+   then
+     printf " ^%s" "$where"
+   fi
+     printf "\e[0;30m)"
+   echo ""
+  fi
+}
+PS1="\n\[\e[1;34m\]\w\$(__gitinfo)\e[0;0m\] $ "
+
+export PS1
