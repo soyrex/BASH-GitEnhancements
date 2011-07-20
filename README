@@ -1,0 +1,24 @@
+BASH Git Enhancements
+=====================
+This is pretty simple.
+
+Installation
+------------
+Step 1: Source the bash-git-ps1 file into your bashrc.
+
+    source ~/.bash-git-ps1  # or whatever path you chose.
+
+Step 2: update your PS1, example shown here:
+
+    PS1="\n\[\e[1;34m\]\w \$(__gitinfo)\e[0;0m\] $ "
+
+That should be it.. if you change into a git project it should show you the branch name.
+As you change files and work with your local branch it will also show you how many altered
+files you have locally and how many commits ahead of your remote branch you are.
+
+The output is something like this: 
+
+Sample: (master: *8 ^3) 
+So we're on the 'master' branch and we have 8 modified files and we are 3 commits ahead of
+the remote master.
+
